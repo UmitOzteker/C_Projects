@@ -13,12 +13,13 @@
 Calisan *calisanOlustur(char *calisanAdi, char *calisanSoyadi, unsigned short int birimKodu, float maas, int girisYili)
 {
     Calisan *newCalisan = malloc(sizeof(Calisan));
-    if (newCalisan == NULL) {
+    if (newCalisan == NULL)
+    {
         printf("Bellek tahsisi başarısız!\n");
         return NULL; // Hata durumunda NULL döndür
     }
-    newCalisan->calisanAdi = strdup(calisanAdi);
-    newCalisan->calisanSoyadi = strdup(calisanSoyadi);
+    newCalisan->calisanAdi = calisanAdi;
+    newCalisan->calisanSoyadi = calisanSoyadi;
     newCalisan->birimKodu = birimKodu;
     newCalisan->maas = maas;
     newCalisan->girisYili = girisYili;
@@ -31,10 +32,10 @@ Calisan *calisanDiziOlustur(Calisan *calisanDizi, int *calisanSayisi, Calisan ye
     *calisanSayisi += 1;
 
     // Yeni bellek bloğu tahsis etmek için geçici işaretçi oluştur
-    Calisan *yeniDizi = realloc(calisanDizi, sizeof(Calisan) * (*calisanSayisi));
+    Calisan *yeniCalisanDizi = realloc(calisanDizi, sizeof(Calisan) * (*calisanSayisi));
 
     // Eğer realloc başarısız olursa
-    if (yeniDizi == NULL)
+    if (yeniCalisanDizi == NULL)
     {
         // Hata mesajı veya uygun işlem
         printf("Bellek tahsisi başarısız!\n");
@@ -44,26 +45,28 @@ Calisan *calisanDiziOlustur(Calisan *calisanDizi, int *calisanSayisi, Calisan ye
     }
 
     // Yeni elemanı diziye ekle
-    yeniDizi[*calisanSayisi - 1] = yeniCalisan;
+    yeniCalisanDizi[*calisanSayisi - 1] = yeniCalisan;
 
     // Yeni diziyi geri döndür
-    return yeniDizi;
+    return yeniCalisanDizi;
 }
 
 Birim *birimOlustur(char *birimAdi, unsigned short int birimKodu, Calisan *birimCalisanlar, int calisanSayisi)
 {
     Birim *newBirim = malloc(sizeof(Birim));
-    if (newBirim == NULL) {
+    if (newBirim == NULL)
+    {
         printf("Bellek tahsisi başarısız!\n");
         return NULL; // Hata durumunda NULL döndür
     }
-    newBirim->birimAdi = strdup(birimAdi);
+    newBirim->birimAdi = birimAdi;
     newBirim->birimKodu = birimKodu;
     newBirim->birimCalisanlar = malloc(sizeof(Calisan) * calisanSayisi);
-    if (newBirim->birimCalisanlar == NULL) {
+    if (newBirim->birimCalisanlar == NULL)
+    {
         printf("Bellek tahsisi başarısız!\n");
         free(newBirim); // Önceki tahsisi serbest bırak
-        return NULL; // Hata durumunda NULL döndür
+        return NULL;    // Hata durumunda NULL döndür
     }
     for (int i = 0; i < calisanSayisi; i++)
     {
@@ -72,6 +75,25 @@ Birim *birimOlustur(char *birimAdi, unsigned short int birimKodu, Calisan *birim
 
     newBirim->calisanSayisi = calisanSayisi; // Çalışan sayısını ekliyoruz
     return newBirim;
+}
+
+Birim *birimDiziOlustur(Calisan *birimDizi, int *birimSayisi, Birim yeniBirim)
+{
+    *birimSayisi = 1;
+    // Yeni bellek bloğu tahsis etmek için geçici işaretçi oluştur
+    Birim *yeniBirimDizi = realloc(birimDizi, sizeof(Birim) * (*birimSayisi));
+
+    if (yeniBirimDizi == NULL)
+    {
+        printf("Bellek tahsisi başarısız!\n");
+        return birimDizi; // Eski diziyi geri döndür
+    }
+
+    // Yeni elemanı diziye kopyala (tüm üyeleri için kopya al)
+    yeniBirimDizi[*birimSayisi - 1] = yeniBirim; // Yeni elemanı sona ekle
+    *birimSayisi += 1;
+
+    return yeniBirimDizi;
 }
 
 void calisanYazdir(Calisan *c)
@@ -87,6 +109,50 @@ void birimYazdir(Birim *b)
 {
     printf("Birim Adi: %s\n", b->birimAdi);
     printf("Birim Kodu: %d\n", b->birimKodu);
-    printf("Calisanlar:\n");
-    
+}
+
+float birimCalisanMaasOrtalamaHesapla(Birim *b)
+{
+    float sum = 0;
+    float ortalamaMaas = 0;
+    for (int i = 0; i < b->calisanSayisi; i++)
+    {
+        sum += b->birimCalisanlar[i].maas;
+    }
+    ortalamaMaas = sum / b->calisanSayisi;
+    return ortalamaMaas;
+}
+
+void *birimCalisanOrtalamaUstuMaas(Birim *b)
+{
+    float ortalamaMaas = birimCalisanMaasOrtalamaHesapla(b);
+    int ortalamaUstuCalisanSayisi = 0; // Ortalama üstü çalışan sayısını tutacak değişken
+
+    for (int i = 0; i < b->calisanSayisi; i++)
+    {
+        if (b->birimCalisanlar[i].maas > ortalamaMaas)
+        {
+            ortalamaUstuCalisanSayisi++;
+        }
+    }
+
+    Calisan *ortalamaUstuCalisanlar = (Calisan *)malloc(sizeof(Calisan) * ortalamaUstuCalisanSayisi);
+
+    // Ortalama üstü çalışanları yeni diziye kopyalayalım
+    int j = 0;
+    for (int i = 0; i < b->calisanSayisi; i++)
+    {
+        if (b->birimCalisanlar[i].maas > ortalamaMaas)
+        {
+            ortalamaUstuCalisanlar[j] = b->birimCalisanlar[i];
+            j++;
+        }
+    }
+
+    for (int i = 0; i < ortalamaUstuCalisanSayisi; i++)
+    {
+        printf("Çalisan Adi: %s, Maas: %.2f\n", ortalamaUstuCalisanlar[i].calisanAdi, ortalamaUstuCalisanlar[i].maas);
+    }
+
+    free(ortalamaUstuCalisanlar);
 }
