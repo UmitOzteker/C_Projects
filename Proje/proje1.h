@@ -2,13 +2,14 @@
 #define PROJE1_H
 
 /**
-* @file main.c
-* @description Programınızın açıklaması ne yaptığına dair.
-* @assignment 1
-* @date 11.12.2024  
-* @author Ümit Özteker | umit.ozteker@stu.fsm.edu.tr
-*/
+ * @file proje1.h
+ * @description Çalışan ve birim yönetimi için tanımlamalar ve fonksiyonlar.
+ * @assignment 1
+ * @date 11.12.2024
+ * @author Ümit
+ */
 
+// Veri Yapıları
 typedef struct
 {
     char *calisanAdi;
@@ -22,22 +23,25 @@ typedef struct
 {
     char *birimAdi;
     unsigned short int birimKodu;
-    Calisan birimCalisanlar;
+    Calisan *birimCalisanlar;
+    int calisanSayisi; // Birimdeki çalışan sayısını tutar.
 } Birim;
 
-
-Birim birimOlustur(char *birimAdi, unsigned short int birimKodu, Calisan *birimCalisanlar, int calisanSayisi);
-Calisan calisanOlustur(char *calisanAdi, char *calisanSoyadi, unsigned short int birimKodu, float maas, int girisYili);
-void diziyeEkle(Calisan *calisanDizi, int *calisanSayisi, Birim *birimDizi, int *birimSayisi);
-void calisanYazdir(Calisan c);
-void birimYazdir(Birim b);
+// Fonksiyon Bildirimleri
+Birim *birimOlustur(char *birimAdi, unsigned short int birimKodu, Calisan *birimCalisanlar, int calisanSayisi);
+Calisan *calisanOlustur(char *calisanAdi, char *calisanSoyadi, unsigned short int birimKodu, float maas, int girisYili);
+Calisan *calisanDiziOlustur(Calisan *calisanDizi, int *calisanSayisi, Calisan yeniCalisan);
+void birimDiziOlustur(Calisan *calisanDizi, int *calisanSayisi, Calisan yeniCalisan);
+void calisanYazdir(Calisan *c);
+void birimYazdir(Birim *b);
 void birimDiziYazdir(Birim *birimDizi, int birimSayisi);
 float birimCalisanMaasOrtalamaHesapla(Birim b);
 void birimCalisanOrtalamaUstuMaas(Birim b);
 void enYuksekMaas(Birim b);
 void yeniMaas(Calisan *calisanDizi, int calisanSayisi, float yeniMaasDegeri);
-void dosyaYazdir(Birim *birimDizi, int birimSayisi, char *dosyaAdi);
-void dosyaOku(Birim **birimDizi, int *birimSayisi, char *dosyaAdi);
+void birimDosyaYazdir(Birim *birimDizi, int birimSayisi);
+void calisanDosyaYazdir(Calisan *calisanDizi, int calisanSayisi);
+void birimDosyaOku(Birim **birimDizi, int *birimSayisi, char *dosyaAdi);
+void calisanDosyaOku(Calisan **calisanDizi, int *calisanSayisi, char *dosyaAdi);
 
-
-#endif
+#endif // PROJE1_H
