@@ -26,28 +26,17 @@ Calisan *calisanOlustur(char *calisanAdi, char *calisanSoyadi, unsigned short in
     return newCalisan;
 }
 
-Calisan *calisanDiziOlustur(Calisan *calisanDizi, int *calisanSayisi, Calisan yeniCalisan)
-{
-    // Dizinin boyutunu artır
-    *calisanSayisi += 1;
-
-    // Yeni bellek bloğu tahsis etmek için geçici işaretçi oluştur
+Calisan *calisanDiziOlustur(Calisan *calisanDizi, int *calisanSayisi, Calisan *yeniCalisan) {
+    (*calisanSayisi)++;
     Calisan *yeniCalisanDizi = realloc(calisanDizi, sizeof(Calisan) * (*calisanSayisi));
 
-    // Eğer realloc başarısız olursa
-    if (yeniCalisanDizi == NULL)
-    {
-        // Hata mesajı veya uygun işlem
+    if (yeniCalisanDizi == NULL) {
         printf("Bellek tahsisi başarısız!\n");
-        // Eski diziyi geri döndür (veya başka bir işlem yap)
-        *calisanSayisi -= 1; // Boyutu geri al
-        return calisanDizi;  // Eski diziyi geri döndür
+        (*calisanSayisi)--;
+        return calisanDizi;
     }
 
-    // Yeni elemanı diziye ekle
-    yeniCalisanDizi[*calisanSayisi - 1] = yeniCalisan;
-
-    // Yeni diziyi geri döndür
+    yeniCalisanDizi[*calisanSayisi - 1] = *yeniCalisan; // Pointer'ın gösterdiği değeri kopyala
     return yeniCalisanDizi;
 }
 
@@ -151,8 +140,39 @@ void *birimCalisanOrtalamaUstuMaas(Birim *b)
 
     for (int i = 0; i < ortalamaUstuCalisanSayisi; i++)
     {
-        printf("Çalisan Adi: %s, Maas: %.2f\n", ortalamaUstuCalisanlar[i].calisanAdi, ortalamaUstuCalisanlar[i].maas);
+        printf("Calisan Adi: %s, Maas: %.2f\n", ortalamaUstuCalisanlar[i].calisanAdi, ortalamaUstuCalisanlar[i].maas);
     }
 
     free(ortalamaUstuCalisanlar);
+}
+
+void enYuksekMaas(Birim *b) {
+    if (b == NULL || b->calisanSayisi <= 0 || b->birimCalisanlar == NULL) {
+        printf("Birim geçersiz veya çalışan yok.\n");
+        return;
+    }
+    float enyuksek = b->birimCalisanlar[0].maas; // İlk çalışanın maaşı ile başlat
+    for (int i = 1; i < b->calisanSayisi; i++) {
+        if (b->birimCalisanlar[i].maas > enyuksek) {
+            enyuksek = b->birimCalisanlar[i].maas;
+        }
+    }
+    printf("En Yuksek Maas Alan Calisan: %.2f\n", enyuksek); // \n eklendi ve format düzeltildi
+}
+
+#include <string.h> // strcmp için eklendi
+
+void maasGuncelle(float yeniMaasDegeri, Birim *b) {
+    if (b == NULL || b->birimCalisanlar == NULL || b->calisanSayisi <= 0) {
+        return;
+    }
+
+    for (int i = 0; i < b->calisanSayisi; i++) {
+        int girisYili = b->birimCalisanlar[i].girisYili;
+        int sirkettekiYil = 2024 - girisYili;
+
+        if (sirkettekiYil > 10 && b->birimCalisanlar[i].maas < yeniMaasDegeri) {
+            b->birimCalisanlar[i].maas = yeniMaasDegeri;
+        }
+    }
 }

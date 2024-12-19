@@ -30,7 +30,7 @@ typedef struct
 // Fonksiyon Bildirimleri
 Birim *birimOlustur(char *birimAdi, unsigned short int birimKodu, Calisan *birimCalisanlar, int calisanSayisi);
 Calisan *calisanOlustur(char *calisanAdi, char *calisanSoyadi, unsigned short int birimKodu, float maas, int girisYili);
-Calisan *calisanDiziOlustur(Calisan *calisanDizi, int *calisanSayisi, Calisan yeniCalisan);
+Calisan *calisanDiziOlustur(Calisan *calisanDizi, int *calisanSayisi, Calisan *yeniCalisan);
 Birim *birimDiziOlustur(Calisan *birimDizi, int *birimSayisi, Birim yeniBirim);
 void calisanYazdir(Calisan *c);
 void birimYazdir(Birim *b);
@@ -38,7 +38,7 @@ void birimDiziYazdir(Birim *birimDizi, int birimSayisi);
 float birimCalisanMaasOrtalamaHesapla(Birim *b);
 void* birimCalisanOrtalamaUstuMaas(Birim *b);
 void enYuksekMaas(Birim *b);
-void yeniMaas(Calisan *calisanDizi, int calisanSayisi, float yeniMaasDegeri);
+void maasGuncelle(float yeniMaasDegeri, Birim *b);
 void birimDosyaYazdir(Birim *birimDizi, int birimSayisi);
 void calisanDosyaYazdir(Calisan *calisanDizi, int calisanSayisi);
 void birimDosyaOku(Birim **birimDizi, int *birimSayisi, char *dosyaAdi);
