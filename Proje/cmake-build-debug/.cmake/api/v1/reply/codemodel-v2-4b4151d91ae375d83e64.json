@@ -1,0 +1,60 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.29"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Proje",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "Proje::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Proje-Debug-55f6bbf4f0be4cb50b93.json",
+					"name" : "Proje",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/umitc/OneDrive/Masa\u00fcst\u00fc/Okul Dosyalar\u0131/BP3 LAB/Proje/cmake-build-debug",
+		"source" : "C:/Users/umitc/OneDrive/Masa\u00fcst\u00fc/Okul Dosyalar\u0131/BP3 LAB/Proje"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}

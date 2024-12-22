@@ -1,0 +1,4 @@
+Yeni Birim;203;0
+Yeni Birim;203;2
+  Enes;Erden;12000.00
+  Ekrem;Bas;12000.00

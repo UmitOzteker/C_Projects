@@ -32,16 +32,13 @@ Birim *birimOlustur(char *birimAdi, unsigned short int birimKodu, Calisan **biri
 Calisan *calisanOlustur(char *calisanAdi, char *calisanSoyadi, unsigned short int birimKodu, float maas, int girisYili);
 Calisan **calisanDiziOlustur(Calisan *calisan, Calisan ***calisanlar, int *calisanSayisi);
 Birim **birimDiziOlustur(Birim *birim, Birim ***birimDizi, int *birimSayisi);
-void calisanYazdir(Calisan *c);
-void birimYazdir(Birim *birim);
+void calisanYazdir(const Calisan *c);
+void birimYazdir(const Birim *birim);
 void birimDiziYazdir(Birim *birim, Birim **birimDizi, int *birimSayisi);
-float birimCalisanMaasOrtalamaHesapla(Birim *b);
-void birimCalisanOrtalamaUstuMaas(Birim *b);
-void enYuksekMaas(Birim *b);
+float birimCalisanMaasOrtalamaHesapla(const Birim *b);
+void birimCalisanOrtalamaUstuMaas(const Birim *b);
+void enYuksekMaas(const Birim *b);
 void maasGuncelle(float yeniMaas, Calisan **calisanlar, int calisanSayisi);
-void birimDosyaYazdir(Birim *birimDizi, int birimSayisi);
-void calisanDosyaYazdir(Calisan *calisanDizi, int calisanSayisi);
-void birimDosyaOku(Birim **birimDizi, int *birimSayisi, char *dosyaAdi);
-void calisanDosyaOku(Calisan **calisanDizi, int *calisanSayisi, char *dosyaAdi);
-
+void DosyaOku(const char *calisanlarDosyaAdi, const char *birimlerDosyaAdi, Calisan ***calisanlar, Birim ***birimler, int *calisanSayisi, int *birimSayisi);
+void DosyaYazdir(const char *calisanlarDosyaAdi, const char *birimlerDosyaAdi, Calisan **calisanlar, Birim **birimler, int calisanSayisi, int birimSayisi);
 #endif // PROJE1_H
