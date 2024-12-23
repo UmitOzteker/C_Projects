@@ -1,0 +1,8 @@
+Enes;Erden;203;12000.00;2010
+Ekrem;Bas;203;12000.00;2012
+Omer;Kaya;204;12000.00;2010
+Hakan;Dudakci;204;12000.00;2012
+Abdullah;Ozteker;204;5000.00;2014
+Zehra;Ozteker;204;4500.00;2016
+Emin;Surmen;204;12000.00;2011
+Muhammed;Surmen;204;12000.00;2011

@@ -6,7 +6,7 @@
  * @description Çalışan ve birim yönetimi için tanımlamalar ve fonksiyonlar.
  * @assignment 1
  * @date 11.12.2024
- * @author Ümit
+ * @author Ümit Özteker
  */
 
 // Veri Yapıları
@@ -32,6 +32,7 @@ Birim *birimOlustur(char *birimAdi, unsigned short int birimKodu, Calisan **biri
 Calisan *calisanOlustur(char *calisanAdi, char *calisanSoyadi, unsigned short int birimKodu, float maas, int girisYili);
 Calisan **calisanDiziOlustur(Calisan *calisan, Calisan ***calisanlar, int *calisanSayisi);
 Birim **birimDiziOlustur(Birim *birim, Birim ***birimDizi, int *birimSayisi);
+void birimeCalisanEkle(Calisan *calisan, Birim *birim);
 void calisanYazdir(const Calisan *c);
 void birimYazdir(const Birim *birim);
 void birimDiziYazdir(Birim *birim, Birim **birimDizi, int *birimSayisi);

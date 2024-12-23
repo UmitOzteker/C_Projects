@@ -11,18 +11,22 @@
  * @author Ümit Özteker | umit.ozteker@stu.fsm.edu.tr
  */
 
-Calisan *calisanOlustur(char *calisanAdi, char *calisanSoyadi, unsigned short int birimKodu, float maas, int girisYili) {
+Calisan *calisanOlustur(char *calisanAdi, char *calisanSoyadi, unsigned short int birimKodu, float maas, int girisYili)
+{
     Calisan *newCalisan = malloc(sizeof(Calisan));
-    if (newCalisan == NULL) {
+
+    if (newCalisan == NULL)
+    {
         printf("Bellek tahsisi başarısız!\n");
         return NULL; // Hata durumunda NULL döndür
     }
 
     // Bellek tahsisi ve kopyalama
-    newCalisan->calisanAdi = strdup(calisanAdi); // Kopyalama
+    newCalisan->calisanAdi = strdup(calisanAdi);       // Kopyalama
     newCalisan->calisanSoyadi = strdup(calisanSoyadi); // Kopyalama
 
-    if (newCalisan->calisanAdi == NULL || newCalisan->calisanSoyadi == NULL) {
+    if (newCalisan->calisanAdi == NULL || newCalisan->calisanSoyadi == NULL)
+    {
         printf("Bellek tahsisi başarısız!\n");
         free(newCalisan->calisanAdi); // Önceki tahsisi serbest bırak
         free(newCalisan->calisanSoyadi);
@@ -33,8 +37,32 @@ Calisan *calisanOlustur(char *calisanAdi, char *calisanSoyadi, unsigned short in
     newCalisan->birimKodu = birimKodu;
     newCalisan->maas = maas;
     newCalisan->girisYili = girisYili;
+
+    printf("Yeni calisan eklendi.\n");
+    printf("-------------------------\n");
     return newCalisan;
 }
+
+void birimeCalisanEkle(Calisan *calisan, Birim *birim) {
+    if (calisan == NULL || birim == NULL) {
+        printf("Calisan veya birim bilgisi eksik.\n");
+        return; // NULL kontrolü
+    }
+
+    // Çalışan için birim çalışanlar dizisini genişlet
+    Calisan **yeniCalisanlar = realloc(birim->birimCalisanlar, sizeof(Calisan *) * (birim->calisanSayisi + 1));
+    if (yeniCalisanlar == NULL) {
+        printf("Bellek tahsisi başarısız!\n");
+        return;
+    }
+
+    birim->birimCalisanlar = yeniCalisanlar; // Yeni diziyi atama
+    birim->birimCalisanlar[birim->calisanSayisi] = calisan; // Yeni çalışanı ekle
+    birim->calisanSayisi++; // Çalışan sayısını güncelle
+
+    printf("Calisan %s %s, birim %s'e eklendi.\n", calisan->calisanAdi, calisan->calisanSoyadi, birim->birimAdi);
+}
+
 
 Calisan **calisanDiziOlustur(Calisan *calisan, Calisan ***calisanlar, int *calisanSayisi)
 {
@@ -57,9 +85,11 @@ Calisan **calisanDiziOlustur(Calisan *calisan, Calisan ***calisanlar, int *calis
     return *calisanlar; // Güncellenmiş dizi döndürülüyor.
 }
 
-Birim *birimOlustur(char *birimAdi, unsigned short int birimKodu, Calisan **birimCalisanlar, int calisanSayisi) {
+Birim *birimOlustur(char *birimAdi, unsigned short int birimKodu, Calisan **birimCalisanlar, int calisanSayisi)
+{
     Birim *newBirim = malloc(sizeof(Birim));
-    if (newBirim == NULL) {
+    if (newBirim == NULL)
+    {
         printf("Bellek tahsisi başarısız!\n");
         return NULL; // Hata durumunda NULL döndür
     }
@@ -68,18 +98,22 @@ Birim *birimOlustur(char *birimAdi, unsigned short int birimKodu, Calisan **biri
     newBirim->birimKodu = birimKodu;
     newBirim->birimCalisanlar = malloc(sizeof(Calisan *) * calisanSayisi); // Düzeltildi
 
-    if (newBirim->birimCalisanlar == NULL) {
+    if (newBirim->birimCalisanlar == NULL)
+    {
         printf("Bellek tahsisi başarısız!\n");
         free(newBirim->birimAdi); // Önceki tahsisi serbest bırak
         free(newBirim);           // Birimi serbest bırak
         return NULL;              // Hata durumunda NULL döndür
     }
 
-    for (int i = 0; i < calisanSayisi; i++) {
+    for (int i = 0; i < calisanSayisi; i++)
+    {
         newBirim->birimCalisanlar[i] = birimCalisanlar[i]; // Çalışanları kopyala
     }
 
     newBirim->calisanSayisi = calisanSayisi; // Çalışan sayısını ekliyoruz
+    printf("Yeni birim olusturuldu.\n");
+    printf("-------------------------\n");
     return newBirim;
 }
 
@@ -97,12 +131,12 @@ void birimYazdir(const Birim *birim)
 
     for (int i = 0; i < birim->calisanSayisi; i++)
     {
-        // Dereferans işlemi ile çalışan bilgilerine erişim
         printf("  - %s %s, Maas: %.2f\n",
                birim->birimCalisanlar[i]->calisanAdi,
                birim->birimCalisanlar[i]->calisanSoyadi,
                birim->birimCalisanlar[i]->maas);
     }
+    printf("-------------------------\n");
 }
 
 Birim **birimDiziOlustur(Birim *birim, Birim ***birimDizi, int *birimSayisi)
@@ -139,6 +173,7 @@ void calisanYazdir(const Calisan *c)
     printf("Birim Kodu: %d\n", c->birimKodu);
     printf("Maas: %.2f\n", c->maas);
     printf("Giris Yili: %d\n", c->girisYili);
+    printf("-------------------------\n");
 }
 
 float birimCalisanMaasOrtalamaHesapla(const Birim *b)
@@ -203,6 +238,7 @@ void birimCalisanOrtalamaUstuMaas(const Birim *b)
     {
         printf("Calisan Adi: %s, Maas: %.2f\n", ortalamaUstuCalisanlar[i]->calisanAdi, ortalamaUstuCalisanlar[i]->maas);
     }
+    printf("-------------------------\n");
 
     // Bellek temizliği
     free(ortalamaUstuCalisanlar);
@@ -235,6 +271,8 @@ void enYuksekMaas(const Birim *b)
            enYuksekCalisan->calisanAdi,
            enYuksekCalisan->calisanSoyadi,
            enYuksek);
+
+    printf("-------------------------\n");
 }
 
 void maasGuncelle(float yeniMaas, Calisan **calisanlar, int calisanSayisi)
@@ -252,59 +290,68 @@ void maasGuncelle(float yeniMaas, Calisan **calisanlar, int calisanSayisi)
     }
 }
 
-void DosyaYazdir(const char *calisanlarDosyaAd, const char *birimlerDosyaAd, Calisan **calisanlar, Birim **birimler, int calisanSayisi, int birimSayisi) {
+void DosyaYazdir(const char *calisanlarDosyaAd, const char *birimlerDosyaAd, Calisan **calisanlar, Birim **birimler, int calisanSayisi, int birimSayisi)
+{
     printf("Dosya yazma islemi Baslatildi.\n");
+    printf("-------------------------\n");
 
     FILE *calisanlarDosya = fopen(calisanlarDosyaAd, "w");
     FILE *birimDosya = fopen(birimlerDosyaAd, "w");
 
-    if (birimDosya == NULL || calisanlarDosya == NULL) {
+    if (birimDosya == NULL || calisanlarDosya == NULL)
+    {
         printf("Dosyalar acilamadi.\n");
-        if (calisanlarDosya != NULL) fclose(calisanlarDosya);
-        if (birimDosya != NULL) fclose(birimDosya);
+        if (calisanlarDosya != NULL)
+            fclose(calisanlarDosya);
+        if (birimDosya != NULL)
+            fclose(birimDosya);
         return;
     }
 
-    // Çalışanları dosyaya yaz
-    for (int i = 0; i < calisanSayisi; i++) {
-        fprintf(calisanlarDosya, "%s;%s;%d;%.2f;%d\n",
-                calisanlar[i]->calisanAdi,
-                calisanlar[i]->calisanSoyadi,
-                calisanlar[i]->birimKodu,
-                calisanlar[i]->maas,
-                calisanlar[i]->girisYili);
+    if (calisanSayisi > 0 && calisanlar != NULL)
+    {
+        // Çalışanları dosyaya yaz
+        for (int i = 0; i < calisanSayisi; i++)
+        {
+            fprintf(calisanlarDosya, "%s;%s;%d;%.2f;%d\n",
+                    calisanlar[i]->calisanAdi,
+                    calisanlar[i]->calisanSoyadi,
+                    calisanlar[i]->birimKodu,
+                    calisanlar[i]->maas,
+                    calisanlar[i]->girisYili);
+        }
     }
 
-    // Birimleri dosyaya yaz
-    for (int i = 0; i < birimSayisi; i++) {
-        fprintf(birimDosya, "%s;%d;%d\n",
-                birimler[i]->birimAdi,
-                birimler[i]->birimKodu,
-                birimler[i]->calisanSayisi);
-
-        // Birim içindeki çalışanları yaz
-        for (int j = 0; j < birimler[i]->calisanSayisi; j++) {
-            fprintf(birimDosya, "  %s;%s;%.2f\n",
-                    birimler[i]->birimCalisanlar[j]->calisanAdi,
-                    birimler[i]->birimCalisanlar[j]->calisanSoyadi,
-                    birimler[i]->birimCalisanlar[j]->maas);
+    if (birimSayisi > 0 && birimler != NULL)
+    {
+        // Birimleri dosyaya yaz
+        for (int i = 0; i < birimSayisi; i++)
+        {
+            fprintf(birimDosya, "%s;%d;%d\n",
+                    birimler[i]->birimAdi,
+                    birimler[i]->birimKodu,
+                    birimler[i]->calisanSayisi);
         }
     }
 
     fclose(calisanlarDosya);
     fclose(birimDosya);
     printf("Dosya yazma islemi tamamlandi.\n");
+    printf("-------------------------\n");
 }
 
-void DosyaOku(const char *calisanlarDosyaAdi, const char *birimlerDosyaAdi, Calisan ***calisanlar, Birim ***birimler, int *calisanSayisi, int *birimSayisi) {
+void DosyaOku(const char *calisanlarDosyaAdi, const char *birimlerDosyaAdi, Calisan ***calisanlar, Birim ***birimler, int *calisanSayisi, int *birimSayisi)
+{
     printf("Dosyadan okuma islemi başlatiliyor...\n");
+    printf("-------------------------\n");
 
     // Dosyaların işaretçileri (pointer).
     FILE *calisanlarDosya = fopen(calisanlarDosyaAdi, "r");
     FILE *birimlerDosya = fopen(birimlerDosyaAdi, "r");
 
     // Eğer dosyalar açılmazsa hata döndür.
-    if (calisanlarDosya == NULL || birimlerDosya == NULL) {
+    if (calisanlarDosya == NULL || birimlerDosya == NULL)
+    {
         perror("Dosyalar açılamadı");
         return;
     }
@@ -313,18 +360,23 @@ void DosyaOku(const char *calisanlarDosyaAdi, const char *birimlerDosyaAdi, Cali
     char satir[256];
 
     // Birimleri dosyadan oku.
-    while (fgets(satir, sizeof(satir), birimlerDosya)) {
+    while (fgets(satir, sizeof(satir), birimlerDosya))
+    {
         char birimAdi[256];
         unsigned short int birimKodu;
 
         // Satır formatı: BirimAdi;BirimKodu
-        if (sscanf(satir, "%[^;];%hu", birimAdi, &birimKodu) == 2) {
+        if (sscanf(satir, "%[^;];%hu", birimAdi, &birimKodu) == 2)
+        {
             // Yeni birim oluştur ve birimler dizisine ekle.
             Birim *yeniBirim = birimOlustur(birimAdi, birimKodu, NULL, 0); // Çalışanlar henüz yok
-            if (yeniBirim != NULL) {
+            if (yeniBirim != NULL)
+            {
                 *birimler = birimDiziOlustur(yeniBirim, birimler, birimSayisi);
             }
-        } else {
+        }
+        else
+        {
             printf("Satır formatı hatalı: %s\n", satir);
         }
     }
@@ -333,7 +385,8 @@ void DosyaOku(const char *calisanlarDosyaAdi, const char *birimlerDosyaAdi, Cali
     fclose(birimlerDosya);
 
     // Çalışanları dosyadan oku.
-    while (fgets(satir, sizeof(satir), calisanlarDosya)) {
+    while (fgets(satir, sizeof(satir), calisanlarDosya))
+    {
         char calisanAdi[256];
         char calisanSoyadi[256];
         unsigned short int birimKodu;
@@ -341,29 +394,42 @@ void DosyaOku(const char *calisanlarDosyaAdi, const char *birimlerDosyaAdi, Cali
         int girisYili;
 
         // Satır formatı: CalisanAdi;CalisanSoyadi;BirimKodu;Maas;GirisYili
-        if (sscanf(satir, "%[^;];%[^;];%hu;%f;%d", calisanAdi, calisanSoyadi, &birimKodu, &maas, &girisYili) == 5) {
+        if (sscanf(satir, "%[^;];%[^;];%hu;%f;%d", calisanAdi, calisanSoyadi, &birimKodu, &maas, &girisYili) == 5)
+        {
             // Yeni çalışan oluştur ve çalışanlar dizisine ekle.
             Calisan *yeniCalisan = calisanOlustur(calisanAdi, calisanSoyadi, birimKodu, maas, girisYili);
-            if (yeniCalisan != NULL) {
+            if (yeniCalisan != NULL)
+            {
                 *calisanlar = calisanDiziOlustur(yeniCalisan, calisanlar, calisanSayisi);
             }
-        } else {
+        }
+        else
+        {
             printf("Satır formatı hatalı: %s\n", satir);
+        }
+    }
+
+    for (int i = 0; i < *birimSayisi; i++)
+    {
+        for (int j = 0; j < *calisanSayisi; j++)
+        {
+            // Eğer i. birim ile j. çalışanın birim kodu eşleşiyorsa çalışanın referansını birime ekle
+            if ((*birimler)[i]->birimKodu == (*calisanlar)[j]->birimKodu)
+            {
+                // Birimin çalışan sayısını artır ve yeni dizi tahsis et
+                (*birimler)[i]->birimCalisanlar = realloc((*birimler)[i]->birimCalisanlar, sizeof(Calisan *) * ((*birimler)[i]->calisanSayisi + 1));
+
+                // Çalışanı birime ekle
+                (*birimler)[i]->birimCalisanlar[(*birimler)[i]->calisanSayisi] = (*calisanlar)[j];
+
+                // Çalışan sayısını güncelle
+                (*birimler)[i]->calisanSayisi++;
+            }
         }
     }
 
     // Çalışan dosyasını kapat.
     fclose(calisanlarDosya);
-
-    // Çalışanları birimlerine ekle.
-    for (int i = 0; i < *birimSayisi; i++) {
-        for (int j = 0; j < *calisanSayisi; j++) {
-            // Eğer i. birim ile j. çalışanın birim kodu eşleşiyorsa çalışanı birimine ekle.
-            if ((*birimler)[i]->birimKodu == (*calisanlar)[j]->birimKodu) {
-                (*birimler)[i]->birimCalisanlar = birimDiziOlustur((*calisanlar)[j], &(*birimler)[i]->birimCalisanlar, &(*birimler)[i]->calisanSayisi);
-            }
-        }
-    }
 
     // Dosyadan okuma işleminin başarılı olduğunu bildir.
     printf("Dosyadan okuma islemi basarili!\n");
