@@ -1,3 +1,12 @@
+
+/**
+ * @file main.c
+ * @description Projede kullanılan fonksiyonların test edildiği c dosyası
+ * @assignment 1
+ * @date 11.12.2024
+ * @author Ümit Özteker | umit.ozteker@stu.fsm.edu.tr
+ */
+
 #include "proje1.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,15 +28,6 @@ int main(int argc, char *argv[])
     // Dosyadan çalışan ve birim bilgilerini oku
     DosyaOku(argv[1], argv[2], &calisanlar, &birimler, &calisanSayisi, &birimSayisi);
 
-    // Yeni çalışanlar oluştur
-    Calisan *yeniCalisan1 = calisanOlustur("Muhammed", "Surmen", 204, 5000.0, 2011);
-    calisanlar = calisanDiziOlustur(yeniCalisan1, &calisanlar, &calisanSayisi);
-
-    for (int i = 0; i < birimSayisi; i++)
-    {
-        birimeCalisanEkle(yeniCalisan1, birimler[i]);
-    }
-
     printf("\n=== CALISANLAR ===\n");
     for (int i = 0; i < calisanSayisi; i++)
     {
@@ -42,9 +42,9 @@ int main(int argc, char *argv[])
         printf("\n");
     }
 
-    // Bir calisanin maasini guncelleyin (ornek kullanim)
+    // Bir calisanin maasini guncelleyin
     printf("\n=== Maas Guncelleme ===\n");
-    float yeniMaas = 12000;
+    float yeniMaas = 17000;
     maasGuncelle(yeniMaas, calisanlar, calisanSayisi);
 
     // Guncellenmis calisan maaslarini yazdirin
@@ -88,14 +88,14 @@ int main(int argc, char *argv[])
     {
         calisanYazdir(calisanlar[i]);
     }
-
+    
     // Yeni birimleri yazdır
     printf("\nYeni Birimler:\n");
     for (int i = 0; i < birimSayisi; i++)
     {
         birimYazdir(birimler[i]);
     }
-
+    
     // Bellek temizliği
     for (int i = 0; i < calisanSayisi; i++)
     {

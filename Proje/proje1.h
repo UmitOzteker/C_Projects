@@ -6,7 +6,7 @@
  * @description Çalışan ve birim yönetimi için tanımlamalar ve fonksiyonlar.
  * @assignment 1
  * @date 11.12.2024
- * @author Ümit Özteker
+ * @author Ümit Özteker | umit.ozteker@stu.fsm.edu.tr
  */
 
 // Veri Yapıları

@@ -1,2 +1,2 @@
-Yeni Birim;203;3
-IT;204;6
+Yeni Birim;203;2
+IT;204;4

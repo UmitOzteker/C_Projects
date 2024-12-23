@@ -5,7 +5,7 @@
 
 /**
  * @file main.c
- * @description Programınızın açıklaması ne yaptığına dair.
+ * @description Çalışan ve birim yönetimi için tanımlamalar ve fonksiyonların uygulandığı dosya.
  * @assignment 1
  * @date 11.12.2024
  * @author Ümit Özteker | umit.ozteker@stu.fsm.edu.tr
