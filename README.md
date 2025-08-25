@@ -1,4 +1,5 @@
 # C Projects 🖥️
+![GitHub Total Commits](https://img.shields.io/github/commit-activity/t/UmitOzteker/Labyrinth_Game_Project) ![GitHub Last Commit](https://img.shields.io/github/last-commit/UmitOzteker/Labyrinth_Game_Project) ![GitHub Issues](https://img.shields.io/github/issues/UmitOzteker/Labyrinth_Game_Project)
 
 This repository, maintained by Umit Ozteker, is a diverse collection of C programming projects. It's designed to showcase various concepts, algorithms, and practical applications of the C language. Whether you are a student learning the fundamentals or an experienced developer looking to sharpen your skills, this collection offers a wide range of hands-on examples. 🧑‍💻
 
